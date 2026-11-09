@@ -49,7 +49,7 @@ const pagina = readFileSync(join(raiz, "ferramentas", "login.html"), "utf8")
   .replace("__DADOS__", JSON.stringify(dados));
 
 // Nada legível pode vazar para a página publicada.
-for (const proibido of [senha, "Área restrita para professores"]) {
+for (const proibido of [senha, "Planejador de Aulas", "Unidades do livro"]) {
   if (pagina.includes(proibido)) throw new Error("A página publicada contém texto que deveria estar cifrado.");
 }
 
