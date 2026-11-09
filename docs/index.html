@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cambridge — Entrar</title>
+<style>
+  :root {
+    --fundo: #f6f4ef;
+    --texto: #1f2328;
+    --suave: #5c6470;
+    --cartao: #ffffff;
+    --borda: #d9d4c9;
+    --destaque: #7a1f2b;
+    --erro: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fundo: #16181c;
+      --texto: #e8e6e1;
+      --suave: #a3a9b3;
+      --cartao: #1f2228;
+      --borda: #353a43;
+      --destaque: #e0828d;
+      --erro: #f2b8b5;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    display: grid; place-items: center;
+    background: var(--fundo); color: var(--texto);
+    font: 16px/1.5 system-ui, sans-serif;
+    padding: 16px;
+  }
+  form {
+    width: 100%; max-width: 360px;
+    background: var(--cartao);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  h1 { margin: 0 0 4px; font: 1.8rem Georgia, "Times New Roman", serif; }
+  p.sub { margin: 0 0 20px; color: var(--suave); font-size: .9rem; }
+  label { display: block; font-size: .85rem; margin: 12px 0 4px; color: var(--suave); }
+  input {
+    width: 100%; padding: 10px 12px; font: inherit;
+    border: 1px solid var(--borda); border-radius: 8px;
+    background: var(--fundo); color: var(--texto);
+  }
+  input:focus { outline: 2px solid var(--destaque); outline-offset: 1px; }
+  button {
+    margin-top: 20px; width: 100%; padding: 11px; font: inherit; font-weight: 600;
+    border: 0; border-radius: 8px; cursor: pointer;
+    background: var(--destaque); color: #fff;
+  }
+  button:disabled { opacity: .6; cursor: wait; }
+  .erro { color: var(--erro); font-size: .9rem; min-height: 1.4em; margin: 12px 0 0; }
+</style>
+</head>
+<body>
+<form id="entrar" autocomplete="on">
+  <h1>Cambridge</h1>
+  <p class="sub">Acesso restrito</p>
+  <label for="usuario">Usuário</label>
+  <input id="usuario" name="username" autocomplete="username" required autofocus>
+  <label for="senha">Senha</label>
+  <input id="senha" name="password" type="password" autocomplete="current-password" required>
+  <button id="botao" type="submit">Entrar</button>
+  <p class="erro" id="erro" role="alert"></p>
+</form>
+<noscript>Este site precisa de JavaScript para abrir.</noscript>
+<script>
+// Conteúdo cifrado (AES-256-GCM). A chave vem de PBKDF2(usuário + senha);
+// nem a senha nem o conteúdo legível estão neste arquivo.
+const DADOS = {"iteracoes":600000,"sal":"YNP0doSX2tdLKKcnA/4E9g==","iv":"AhmJHoDvvSGWzCCH","cifrado":"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"};
+
+const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+async function abrir(usuario, senha) {
+  const frase = new TextEncoder().encode(usuario.trim().toLowerCase() + "\n" + senha);
+  const base = await crypto.subtle.importKey("raw", frase, "PBKDF2", false, ["deriveKey"]);
+  const chave = await crypto.subtle.deriveKey(
+    { name: "PBKDF2", hash: "SHA-256", salt: b64(DADOS.sal), iterations: DADOS.iteracoes },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const claro = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: b64(DADOS.iv) }, chave, b64(DADOS.cifrado));
+  return new TextDecoder().decode(claro);
+}
+
+document.getElementById("entrar").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const botao = document.getElementById("botao");
+  const erro = document.getElementById("erro");
+  erro.textContent = "";
+  botao.disabled = true;
+  botao.textContent = "Abrindo…";
+  try {
+    const html = await abrir(
+      document.getElementById("usuario").value,
+      document.getElementById("senha").value);
+    document.open();
+    document.write(html);
+    document.close();
+  } catch (e) {
+    erro.textContent = "Usuário ou senha incorretos.";
+    botao.disabled = false;
+    botao.textContent = "Entrar";
+  }
+});
+</script>
+</body>
+</html>
